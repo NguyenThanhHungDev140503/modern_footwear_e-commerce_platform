@@ -5,6 +5,7 @@ import { HoverCard, HoverCardTrigger, HoverCardContent } from '@radix-ui/react-h
 import { Skeleton } from '@/components/SkeletonLoader'
 import { Product } from '@/types/product'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 type ProductCardProps =
   | { type: 'full'; product: Product }
@@ -19,6 +20,7 @@ type ProductCardProps =
 
 export function FeaturedProductCard(props: ProductCardProps) {
   const [isLoading, setIsLoading] = useState(true)
+  const navigate = useNavigate()
   const { type } = props;
   
   // Extract properties based on prop type
@@ -27,13 +29,49 @@ export function FeaturedProductCard(props: ProductCardProps) {
   const price = type === 'full' ? props.product.price : props.price;
   const imageUrl = type === 'full' ? props.product.image : props.imageUrl; // Sử dụng image thay cho imageUrl
   const rating = type === 'full' ? props.product.rating : props.rating;
+  const productId = type === 'full' ? props.product.id : null;
   
   const handleImageLoad = () => {
     setIsLoading(false);
   };
 
+  const handleProductClick = (e: React.MouseEvent) => {
+    // Prevent navigation if clicking on interactive elements
+    if ((e.target as HTMLElement).closest('button')) {
+      return;
+    }
+    
+    if (productId) {
+      navigate(`/product/${productId}`);
+    }
+  };
+
+  const handleQuickView = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (productId) {
+      navigate(`/product/${productId}`);
+    }
+  };
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    // Add to cart logic here
+    console.log('Added to cart:', name);
+  };
   return (
-    <div className="group relative overflow-hidden rounded-lg border">
+    <div 
+      className="group relative overflow-hidden rounded-lg border cursor-pointer hover:shadow-lg transition-shadow duration-300"
+      onClick={handleProductClick}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          handleProductClick(e as any);
+        }
+      }}
+      aria-label={`View details for ${name}`}
+    >
       <HoverCard>
         <div className="relative">
           <AspectRatio.Root ratio={1}>
@@ -67,7 +105,9 @@ export function FeaturedProductCard(props: ProductCardProps) {
                     <h2 className="mt-1 text-base font-semibold line-clamp-1">{name}</h2>
                     <div className="mt-2 flex items-center justify-between">
                       <span className="font-bold">${price.toFixed(2)}</span>
-                      <Button size="sm" variant="outline">Add to Cart</Button>
+                      <Button size="sm" variant="outline" onClick={handleAddToCart}>
+                        Add to Cart
+                      </Button>
                     </div>
                   </div>
                 </div>
@@ -94,7 +134,9 @@ export function FeaturedProductCard(props: ProductCardProps) {
               <h3 className="font-medium text-sm">{brand}</h3>
               <h2 className="text-lg font-semibold">{name}</h2>
               <p className="text-muted-foreground">${price.toFixed(2)}</p>
-              <Button size="sm" className="w-full mt-2">Quick View</Button>
+              <Button size="sm" className="w-full mt-2" onClick={handleQuickView}>
+                Quick View
+              </Button>
             </div>
           </div>
         </HoverCardContent>

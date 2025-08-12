@@ -57,9 +57,22 @@ const products: Product[] = [
 
 export default function ProductDetailPage() {
   const { id } = useParams<{ id: string }>();
-  const [isLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Simulate loading effect
+  useState(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
+    return () => clearTimeout(timer);
+  });
 
   const product = products.find((p) => p.id === id);
+  
+  if (isLoading) {
+    return <SkeletonProductDetail />;
+  }
+  
   if (!product) {
     return <div className="container py-8 text-center">Sản phẩm không tồn tại</div>;
   }
@@ -71,16 +84,14 @@ export default function ProductDetailPage() {
   };
 
   const handleBuyNow = () => {
-    window.location.href = '/checkout';
+    // Navigate to checkout instead of using window.location
+    alert(`Chuyển đến trang thanh toán cho ${product.name}`);
   };
 
   const handleAddToWishlist = () => {
     alert(`Đã thêm ${product.name} vào yêu thích`);
   };
 
-  if (isLoading) {
-    return <SkeletonProductDetail />;
-  }
 
   return (
     <div className="container py-8">
