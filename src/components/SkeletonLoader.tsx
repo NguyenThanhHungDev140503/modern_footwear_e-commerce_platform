@@ -255,3 +255,93 @@ export function SkeletonProductDetail() {
     </div>
   );
 }
+
+export function SkeletonCheckout() {
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <div className="container mx-auto py-8">
+        {/* Header Skeleton */}
+        <div className="mb-8 text-center">
+          <Skeleton className="h-8 w-32 mx-auto mb-2" />
+          <Skeleton className="h-4 w-64 mx-auto" />
+        </div>
+
+        {/* Progress Bar Skeleton */}
+        <div className="w-full max-w-4xl mx-auto mb-8">
+          <div className="flex items-center justify-between">
+            {[1, 2, 3, 4].map((step) => (
+              <div key={step} className="flex items-center flex-1">
+                <div className="relative flex flex-col items-center">
+                  <Skeleton className="w-12 h-12 rounded-full" />
+                  <div className="mt-3 text-center">
+                    <Skeleton className="h-4 w-20 mb-1" />
+                    <Skeleton className="h-3 w-16" />
+                  </div>
+                </div>
+                {step < 4 && (
+                  <div className="flex-1 h-px mx-4">
+                    <Skeleton className="h-px w-full" />
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Content Skeleton */}
+        <div className="max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Main Content */}
+            <div className="lg:col-span-2 space-y-6">
+              <div className="bg-white rounded-lg shadow-sm p-6">
+                <Skeleton className="h-6 w-48 mb-6" />
+                <div className="space-y-4">
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className="flex items-center gap-4 p-4 border rounded-lg">
+                      <Skeleton className="w-16 h-16 rounded" />
+                      <div className="flex-1 space-y-2">
+                        <Skeleton className="h-4 w-3/4" />
+                        <Skeleton className="h-3 w-1/2" />
+                        <div className="flex items-center justify-between">
+                          <Skeleton className="h-3 w-16" />
+                          <Skeleton className="h-4 w-12" />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Sidebar */}
+            <div className="lg:col-span-1">
+              <div className="bg-white rounded-lg shadow-sm p-6">
+                <Skeleton className="h-5 w-32 mb-4" />
+                <div className="space-y-3 mb-6">
+                  <div className="flex justify-between">
+                    <Skeleton className="h-4 w-16" />
+                    <Skeleton className="h-4 w-12" />
+                  </div>
+                  <div className="flex justify-between">
+                    <Skeleton className="h-4 w-12" />
+                    <Skeleton className="h-4 w-16" />
+                  </div>
+                  <div className="flex justify-between">
+                    <Skeleton className="h-4 w-8" />
+                    <Skeleton className="h-4 w-10" />
+                  </div>
+                  <hr />
+                  <div className="flex justify-between">
+                    <Skeleton className="h-5 w-20" />
+                    <Skeleton className="h-5 w-16" />
+                  </div>
+                </div>
+                <Skeleton className="h-12 w-full" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

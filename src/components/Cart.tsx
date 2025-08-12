@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Cross2Icon, PlusIcon, MinusIcon } from '@radix-ui/react-icons'
 import * as Dialog from '@radix-ui/react-dialog'
 import { Button } from './ui/button'
+import { useNavigate } from 'react-router-dom'
 
 type CartItem = {
   id: string
@@ -13,6 +14,7 @@ type CartItem = {
 }
 
 export function Cart() {
+  const navigate = useNavigate()
   const [cartItems, setCartItems] = React.useState<CartItem[]>([
     {
       id: '1',
@@ -55,9 +57,11 @@ export function Cart() {
   const handleCheckout = async () => {
     setIsLoading(true)
     // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000))
+    await new Promise(resolve => setTimeout(resolve, 500))
     setIsLoading(false)
-    alert('Checkout completed!')
+    
+    // Navigate to checkout page
+    navigate('/checkout')
   }
 
   return (
